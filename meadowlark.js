@@ -23,9 +23,22 @@ app.set("view engine", "handlebars");
 
 app.use(express.static(__dirname + "/public"));
 
+app.disable('x-powered-by'); // desativa o cabeçalho X-Powered-By padrão do Express
+
 app.get("/", handlers.home);
 
 app.get("/about", handlers.about);
+
+app.get("/tours", handlers.tours);
+
+app.get("/headers", (req, res) => {
+  console.log(req.ip);
+  res.type("text/plain");
+  const headers = Object.entries(req.headers).map(
+    ([key, value]) => `${key}: ${value}`
+  );
+  return res.send(headers.join("/n"));
+});
 
 // app.get("/", (_req, res) => {
 //   res.type("text/plain");

@@ -1,0 +1,34 @@
+<h1>Tours Meadowlark Travel</h1>
+
+<ul>
+  {{#each tours.tours}}
+    {{! Estou em um novo bloco... e o contexto mudou }}
+    <li>
+      {{name}} - {{price}}
+      {{#if ../tours.currencies}}
+        ({{../tours.currency.abbrev}})
+      {{/if}}
+    </li>
+  {{/each}}
+</ul>
+
+{{#unless currencies}}
+  <p>All prices in {{tours.currency.name}}</p>
+{{/unless}}
+
+{{#if tours.specialsUrl}}
+  {{! Estou em um novo bloco... mas o contexto não mudou (mais ou menos)}}
+  <p>Check out our <a href="{{specialsUrl}}"> specials!</p>
+
+{{else}}
+  <p>Please check barn often specials.</p>
+{{/if}}
+
+<p>
+  {{#each tours.currencies}}
+    <a href="#" >{{.}}</a>
+    {{else}}
+      Unfortunately, we currently only accept {{currency.name}}.
+  {{/each}}
+</p>
+
