@@ -1,6 +1,5 @@
 const express = require("express");
 const { engine, create } = require("express-handlebars");
-const expressHandlebars = require('express-handlebars');
 
 const handlers = require("./libs/handlers");
 
@@ -9,8 +8,8 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Aqui podemos utilizar diversos tipos de "configurações", observar documentação oficial
-const hbs = create();
-app.engine("handlebars", hbs.engine);
+// const hbs = create();
+// app.engine("handlebars", hbs.engine);
 
 // app.engine(
 //   "handlebars",
@@ -19,12 +18,21 @@ app.engine("handlebars", hbs.engine);
 //   })
 // );
 
-// app.engine(
-//   "handlebars",
-//   expressHandlebars({
-//     defaultLayout: "main",
-//   })
-// );
+app.engine(
+  "handlebars",
+  engine({
+    defaultLayout: "main",
+    helpers: {
+      section: function(name, options) {
+        if (!this._sections) {
+          this._sections = {};
+        }
+        this._sections[name] = options.fn(this);
+        return null
+      },
+    },
+  })
+);
 
 app.set("view engine", "handlebars");
 // app.set('views', './views');
@@ -52,7 +60,9 @@ app.get("/headers", (req, res) => {
   return res.send(headers.join("/n"));
 });
 
-app.get('/foo', (_req, res) => res.render('foo', { layout: 'microsite' }));
+app.get('/foo', handlers.foo);
+
+app.get('/section-tests', handlers.test);
 
 // app.get("/", (_req, res) => {
 //   res.type("text/plain");

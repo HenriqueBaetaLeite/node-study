@@ -10,3 +10,7 @@ exports.notFound = (_req, res) => res.render('404');
 exports.serverError = (_err, _req, res, _next) => res.render('500');
 
 exports.tours = (_req, res) => res.render('tours', { tours });
+
+exports.foo = (_req, res) => res.render('foo', { layout: 'microsite' });
+
+exports.test = (_req, res) => res.render('section-tests');
