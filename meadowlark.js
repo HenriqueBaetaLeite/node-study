@@ -1,5 +1,6 @@
 const express = require("express");
 const { engine, create } = require("express-handlebars");
+const expressHandlebars = require('express-handlebars');
 
 const handlers = require("./libs/handlers");
 
@@ -18,8 +19,19 @@ app.engine("handlebars", hbs.engine);
 //   })
 // );
 
+// app.engine(
+//   "handlebars",
+//   expressHandlebars({
+//     defaultLayout: "main",
+//   })
+// );
+
 app.set("view engine", "handlebars");
 // app.set('views', './views');
+
+// Ativa o cache de views, pois por padrão, é desativado no modo de desenvolvimento e ativado
+// no modo de produção:
+app.set('view cache', true);
 
 app.use(express.static(__dirname + "/public"));
 
@@ -39,6 +51,8 @@ app.get("/headers", (req, res) => {
   );
   return res.send(headers.join("/n"));
 });
+
+app.get('/foo', (_req, res) => res.render('foo', { layout: 'microsite' }));
 
 // app.get("/", (_req, res) => {
 //   res.type("text/plain");
