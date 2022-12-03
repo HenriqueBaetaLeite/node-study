@@ -1,6 +1,8 @@
 const express = require("express");
 const { engine, create } = require("express-handlebars");
 
+const weatherMiddleware = require('./libs/middleware/weather');
+
 const handlers = require("./libs/handlers");
 
 const app = express();
@@ -35,7 +37,7 @@ app.engine(
 );
 
 app.set("view engine", "handlebars");
-// app.set('views', './views');
+app.set('views', './views');
 
 // Ativa o cache de views, pois por padrão, é desativado no modo de desenvolvimento e ativado
 // no modo de produção:
@@ -45,7 +47,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.disable('x-powered-by'); // desativa o cabeçalho X-Powered-By padrão do Express
 
-app.get("/", handlers.home);
+app.get("/", weatherMiddleware, handlers.home);
 
 app.get("/about", handlers.about);
 
