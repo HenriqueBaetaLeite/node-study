@@ -10,7 +10,7 @@
     "dev": "nodemon .",
     "lint": "eslint meadowlark.js"
   },
-  "keywords": ["node", "handlebars", "jest", "nodemon", "portfinder"],
+  "keywords": ["node", "express", "express-handlebars", "jest", "nodemon", "portfinder"],
   "author": "Henrique Baêta",
   "license": "ISC",
   "dependencies": {
