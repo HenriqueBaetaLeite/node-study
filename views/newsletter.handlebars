@@ -45,6 +45,7 @@
       email: form.elements.email.value,
     });
     const headers = { 'Content-Type': 'application/json'};
+    
     const container = document.getElementById('newsletterSignupFormContainer');
 
     fetch('/api/newsletter-signup', { method: 'post', body, headers }).then((resp) => {

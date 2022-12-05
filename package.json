@@ -16,14 +16,14 @@
     "express-handlebars",
     "jest",
     "nodemon",
-    "portfinder"
+    "portfinder",
+    "puppeteer"
   ],
   "author": "Henrique Baêta",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "express-handlebars": "^6.0.6",
-    "node-fetch": "^3.3.0"
+    "express-handlebars": "^6.0.6"
   },
   "devDependencies": {
     "eslint": "^8.27.0",
