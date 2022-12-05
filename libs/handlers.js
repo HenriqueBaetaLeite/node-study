@@ -40,10 +40,16 @@ exports.api = {
     console.log("Email: ", req.body.email);
     return res.send({ result: "success" });
   },
+  vacationPhotoContest: (_req, res, fields, files) => {
+    console.log('field data: ', fields);
+    console.log('files: ', files);
+    return res.redirect(303, '/contest/vacation-photo-thank-you');
+  },
 };
 
-exports.vacationPhotoContestProcess = (_req, res, fields, files) => {
+exports.vacationPhotoContestProcess = (_req, res, fields) => {
   console.log('field data: ', fields);
-  console.log('files: ', files);
-  res.redirect(303, '/contest/vacation-photo-thank-you');
-}
+  // console.log('files: ', files);
+  return res.render('contest/vacation-photo');
+  // res.redirect(303, '/contest/vacation-photo-thank-you');
+};
