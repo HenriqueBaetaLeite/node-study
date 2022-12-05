@@ -41,3 +41,9 @@ exports.api = {
     return res.send({ result: "success" });
   },
 };
+
+exports.vacationPhotoContestProcess = (_req, res, fields, files) => {
+  console.log('field data: ', fields);
+  console.log('files: ', files);
+  res.redirect(303, '/contest/vacation-photo-thank-you');
+}

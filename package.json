@@ -7,7 +7,7 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "start": "node .",
-    "dev": "nodemon .",
+    "dev": "nodemon . -e js,json,handlebars",
     "lint": "eslint meadowlark.js"
   },
   "keywords": [
@@ -23,7 +23,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "express-handlebars": "^6.0.6"
+    "express-handlebars": "^6.0.6",
+    "multiparty": "^4.2.3"
   },
   "devDependencies": {
     "eslint": "^8.27.0",
