@@ -53,8 +53,7 @@
       }
       return resp.json();
     }).then((json) => {
-      container.innerHTML = 'Thank you for signing up!';
-      container.innerHTML = 'Go to <a href="/">home</a>'
+      container.innerHTML = 'Thank you for signing up! ' + 'Go back to <a href="/">home</a>';
     }).catch((err) => {
       console.log('o erro vai aqui: ', err.message);
       container.innerHTML = `<b>We're sorry, we had a problem signing you up, ` + 
