@@ -2,11 +2,11 @@
 <p>{{csrf}}</p>
 <div id="newsletterSignupFormContainer">
   <form
-    {{!-- action="/newsletter-signup/process?form=newsletter" --}}
+    action="/newsletter-signup/process?form=newsletter"
     role="form"
     id="newsletterSignupForm"
     class="form-horizontal"
-    {{!-- method="post"> --}}
+    method="post">
     <input type="hidden" name="_csrf" value="{{csrf}}">
     <div class="form-group">
       <label for="fieldEmail" class="col-sm-2 control-label">Name</label>
