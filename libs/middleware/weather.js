@@ -22,7 +22,7 @@ const getWeatherData = () =>
     },
   ]);
 
-  const weatherMiddleware = async (req, res, next) => {
+  const weatherMiddleware = async (_req, res, next) => {
     if (!res.locals.partials) {
       res.locals.partials = {};
     }

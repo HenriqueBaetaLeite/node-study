@@ -7,6 +7,8 @@ const handlers = require("./libs/handlers");
 
 const app = express();
 
+app.use(express.json());
+
 const port = process.env.PORT || 3001;
 
 // Aqui podemos utilizar diversos tipos de "configurações", observar documentação oficial
@@ -65,6 +67,10 @@ app.get("/headers", (req, res) => {
 app.get('/foo', handlers.foo);
 
 app.get('/section-tests', handlers.test);
+
+app.get('/newsletter-signup', handlers.newsletterSignup);
+app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
+app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
 
 // app.get("/", (_req, res) => {
 //   res.type("text/plain");
