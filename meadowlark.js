@@ -69,7 +69,7 @@ app.get('/foo', handlers.foo);
 app.get('/section-tests', handlers.test);
 
 app.get('/newsletter', handlers.newsletter);
-app.post('/api/newsletter', handlers.api.newsletterSignup);
+app.post('/api/newsletter-signup', handlers.api.newsletterSignup);
 
 app.get('/newsletter-signup', handlers.newsletterSignup);
 app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);

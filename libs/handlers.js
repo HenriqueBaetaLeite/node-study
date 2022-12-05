@@ -29,7 +29,7 @@ exports.newsletterSignupProcess = (req, res) => {
 exports.newsletterSignupThankYou = (_req, res) =>
   res.render("newsletter-signup-thank-you");
 
-exports.newsletter = (req, res) =>
+exports.newsletter = (_req, res) =>
   res.render("newsletter", { csrf: "CSRF goes here" });
 
 exports.api = {
