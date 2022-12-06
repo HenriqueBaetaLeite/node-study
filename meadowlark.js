@@ -1,11 +1,13 @@
 const express = require("express");
 const { engine, create } = require("express-handlebars");
 
-const multiparty = require('multiparty');
+const multiparty = require("multiparty");
 
-const weatherMiddleware = require('./libs/middleware/weather');
+const weatherMiddleware = require("./libs/middleware/weather");
 
 const handlers = require("./libs/handlers");
+
+const { credentials } = require('./config');
 
 const app = express();
 
@@ -29,27 +31,27 @@ app.engine(
   engine({
     defaultLayout: "main",
     helpers: {
-      section: function(name, options) {
+      section: function (name, options) {
         if (!this._sections) {
           this._sections = {};
         }
         this._sections[name] = options.fn(this);
-        return null
+        return null;
       },
     },
   })
 );
 
 app.set("view engine", "handlebars");
-app.set('views', './views');
+app.set("views", "./views");
 
 // Ativa o cache de views, pois por padrão, é desativado no modo de desenvolvimento e ativado
 // no modo de produção:
-app.set('view cache', true);
+app.set("view cache", true);
 
 app.use(express.static(__dirname + "/public"));
 
-app.disable('x-powered-by'); // desativa o cabeçalho X-Powered-By padrão do Express
+app.disable("x-powered-by"); // desativa o cabeçalho X-Powered-By padrão do Express
 
 app.get("/", weatherMiddleware, handlers.home);
 
@@ -66,27 +68,29 @@ app.get("/headers", (req, res) => {
   return res.send(headers.join("/n"));
 });
 
-app.get('/foo', handlers.foo);
+app.get("/foo", handlers.foo);
 
-app.get('/section-tests', handlers.test);
+app.get("/section-tests", handlers.test);
 
-app.get('/newsletter', handlers.newsletter);
-app.post('/api/newsletter-signup', handlers.api.newsletterSignup);
+app.get("/newsletter", handlers.newsletter);
+app.post("/api/newsletter-signup", handlers.api.newsletterSignup);
 
-app.get('/newsletter-signup', handlers.newsletterSignup);
-app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
-app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou);
+app.get("/newsletter-signup", handlers.newsletterSignup);
+app.post("/newsletter-signup/process", handlers.newsletterSignupProcess);
+app.get("/newsletter-signup/thank-you", handlers.newsletterSignupThankYou);
 
-app.get('/contest/vacation-photo', handlers.vacationPhotoContestProcess);
-// app.post('/contest/vacation-photo/:year/:month', handlers.api.vacationPhotoContest,
-// (req, res) => {
-//   const form = new multiparty.Form();
-//   form.parse(req, (err, fields, files) => {
-//     if (err) return res.status(500).send({ error: err.message });
-//     handlers.vacationPhotoContestProcess(req, res, fields, files);
-//   });
-// }
-// );
+app.get("/contest/vacation-photo", handlers.vacationPhotoContestProcess);
+app.post(
+  "/contest/vacation-photo",
+  handlers.api.vacationPhotoContest,
+  (req, res) => {
+    const form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+      if (err) return res.status(500).send({ error: err.message });
+      handlers.vacationPhotoContestProcess(req, res, fields, files);
+    });
+  }
+);
 
 // app.get("/", (_req, res) => {
 //   res.type("text/plain");
