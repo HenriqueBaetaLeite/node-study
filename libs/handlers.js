@@ -3,6 +3,8 @@ const tours = require("./tours");
 
 exports.home = (req, res) => {
   console.log(req.cookies.monster); // to recover a cookie
+  req.session.username = 'Anonymous';
+  const colorScheme = req.session.colorScheme || 'dark';
   res.cookie('monster', 'nom nom');
   res.cookie('signed_monster', 'nom nom', { signed: true });
   return res.render("home");

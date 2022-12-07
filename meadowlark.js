@@ -9,6 +9,8 @@ const expresSession = require('express-session');
 
 const weatherMiddleware = require("./libs/middleware/weather");
 
+const flashMiddleware = require('./libs/middleware/flash');
+
 const handlers = require("./libs/handlers");
 
 const { credentials } = require('./config');
@@ -16,6 +18,8 @@ const { credentials } = require('./config');
 const app = express();
 
 app.use(express.json());
+
+app.use(flashMiddleware);
 
 app.use(expresSession({
   resave: false,
