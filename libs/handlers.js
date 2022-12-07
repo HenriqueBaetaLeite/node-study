@@ -1,7 +1,12 @@
 const fortune = require("./fortune").getFortune();
 const tours = require("./tours");
 
-exports.home = (_req, res) => res.render("home");
+exports.home = (req, res) => {
+  console.log(req.cookies.monster); // to recover a cookie
+  res.cookie('monster', 'nom nom');
+  res.cookie('signed_monster', 'nom nom', { signed: true });
+  return res.render("home");
+}
 
 exports.about = (_req, res) => res.render("about", { fortune });
 

@@ -3,6 +3,10 @@ const { engine, create } = require("express-handlebars");
 
 const multiparty = require("multiparty");
 
+const cookieParser = require('cookie-parser');
+
+const expresSession = require('express-session');
+
 const weatherMiddleware = require("./libs/middleware/weather");
 
 const handlers = require("./libs/handlers");
@@ -12,6 +16,14 @@ const { credentials } = require('./config');
 const app = express();
 
 app.use(express.json());
+
+app.use(expresSession({
+  resave: false,
+  saveUninitialized: false,
+  secret: credentials.cookieSecret,
+}));
+
+app.use(cookieParser(credentials.cookieSecret));
 
 const port = process.env.PORT || 3001;
 
