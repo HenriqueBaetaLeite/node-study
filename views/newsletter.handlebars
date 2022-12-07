@@ -38,7 +38,6 @@
   myForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.target;
-    {{!-- console.log('O nome deveria estar aqui: ', form.elements.name.value); --}}
     const body = JSON.stringify({
       _csrf: form.elements._csrf.value,
       name: form.elements.name.value,
@@ -54,6 +53,7 @@
       }
       return resp.json();
     }).then((json) => {
+      console.log("resp goes here: ", json);
       container.innerHTML = 'Thank you for signing up! ' + 'Go back to <a href="/">home</a>';
     }).catch((err) => {
       console.log('o erro vai aqui: ', err.message);

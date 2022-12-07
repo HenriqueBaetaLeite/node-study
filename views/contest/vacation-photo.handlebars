@@ -2,9 +2,11 @@
 
 <div id="vacationFormContainer">
 
-  <form action="/contest/vacation-photo/{{year}}/{{month}}" id="vacationPhotoForm"
+  <form
+    {{!-- action="/contest/vacation-photo/{{year}}/{{month}}" --}}
+    action="/contest/vacation-photo"
     role="form" class="form-horizontal" enctype="multipart/form-data"
-    method="post"
+    method="post" id="vacationPhotoForm"
   >
     <input type="hidden" name="_csrf" value="{{_csrf}}">
     <div class="form-group">
@@ -37,12 +39,14 @@
 </div>
 
 <script defer>
-  document.getElementById('vacationPhotoForm').addEventListener((event) => {
+  document.getElementById('vacationPhotoForm').addEventListener("submit", (event) => {
     event.preventDefault();
+    console.log(event.target);
     const body = new FormData(event.target);
     const container = document.getElementById('vacationFormContainer');
-    const url = '/api/vacation-photo-contest/{{year}}/{{month}}';
-    fetch(url, { method: 'post', body}).then((resp) => {
+    const url = '/api/vacation-photo-contest';
+    fetch(url, { method: 'post', body }).then((resp) => {
+      console.log('case success: ', resp);
       if (resp.status < 200 || resp.status >= 300) {
         throw new Error(`Request failed with status ${resp.status}`);
       }
@@ -50,8 +54,9 @@
     }).then((json) => {
       container.innerHTML = 'Thank you for submitting your photo!';
     }).catch((error) => {
+      console.log(error);
       container.innerHTML = `<b>We're sorry, we had a problem signing you up, ` + 
-        `please <a href="/newsletter">try</a> again</b>`;
+        `please <a href="/contest/vacation-photo">try</a> again ...</b>`;
     });
   });
 </script>

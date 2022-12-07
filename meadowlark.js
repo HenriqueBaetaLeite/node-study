@@ -81,7 +81,7 @@ app.get("/newsletter-signup/thank-you", handlers.newsletterSignupThankYou);
 
 app.get("/contest/vacation-photo", handlers.vacationPhotoContestProcess);
 app.post(
-  "/contest/vacation-photo",
+  "/api/vacation-photo-contest",
   handlers.api.vacationPhotoContest,
   (req, res) => {
     const form = new multiparty.Form();

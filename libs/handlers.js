@@ -30,7 +30,7 @@ exports.newsletterSignupThankYou = (_req, res) =>
   res.render("newsletter-signup-thank-you");
 
 exports.newsletter = (_req, res) =>
-  res.render("newsletter", { csrf: "CSRF goes here" });
+  res.render("newsletter", { csrf: "CSRF TOKEN goes here ..." });
 
 exports.api = {
   newsletterSignup: (req, res) => {
@@ -40,16 +40,18 @@ exports.api = {
     console.log("Email: ", req.body.email);
     return res.send({ result: "success" });
   },
-  vacationPhotoContest: (_req, res, fields, files) => {
-    console.log('field data: ', fields);
-    console.log('files: ', files);
-    return res.redirect(303, '/contest/vacation-photo-thank-you');
+  vacationPhotoContest: (req, res) => {
+    // console.log('field data: ', fields);
+    console.log(req.headers);
+    return res.send({ result: "success" });
+    // return res.redirect(303, "/contest/vacation-photo-thank-you");
   },
 };
 
-exports.vacationPhotoContestProcess = (_req, res, fields) => {
-  console.log('field data: ', fields);
-  // console.log('files: ', files);
-  return res.render('contest/vacation-photo');
+exports.vacationPhotoContestProcess = (_req, res) => {
+  return res.render("contest/vacation-photo");
   // res.redirect(303, '/contest/vacation-photo-thank-you');
 };
+
+exports.vacationPhotoThankYou = (_req, res) =>
+  res.render("contest/vacation-photo-thank-you");
