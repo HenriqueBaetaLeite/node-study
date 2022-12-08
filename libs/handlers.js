@@ -2,7 +2,7 @@ const fortune = require("./fortune").getFortune();
 const tours = require("./tours");
 
 exports.home = (req, res) => {
-  console.log(req.cookies.monster); // to recover a cookie
+  console.log('Temos monster aqui? ', req.cookies.monster); // to recover a cookie
   req.session.username = 'Anonymous';
   const colorScheme = req.session.colorScheme || 'dark';
   res.cookie('monster', 'nom nom');

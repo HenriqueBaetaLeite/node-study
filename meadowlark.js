@@ -5,7 +5,7 @@ const multiparty = require("multiparty");
 
 const cookieParser = require('cookie-parser');
 
-const expresSession = require('express-session');
+const expressSession = require('express-session');
 
 const weatherMiddleware = require("./libs/middleware/weather");
 
@@ -19,15 +19,16 @@ const app = express();
 
 app.use(express.json());
 
-app.use(flashMiddleware);
 
-app.use(expresSession({
+app.use(expressSession({
   resave: false,
   saveUninitialized: false,
   secret: credentials.cookieSecret,
 }));
 
 app.use(cookieParser(credentials.cookieSecret));
+
+app.use(flashMiddleware);
 
 const port = process.env.PORT || 3001;
 
