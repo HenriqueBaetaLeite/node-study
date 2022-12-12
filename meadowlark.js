@@ -19,7 +19,6 @@ const app = express();
 
 app.use(express.json());
 
-
 app.use(expressSession({
   resave: false,
   saveUninitialized: false,
