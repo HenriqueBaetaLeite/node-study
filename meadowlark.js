@@ -3,27 +3,33 @@ const { engine, create } = require("express-handlebars");
 
 const multiparty = require("multiparty");
 
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
-const expressSession = require('express-session');
+const expressSession = require("express-session");
+
+const morgan = require("morgan");
+const fs = require("fs");
 
 const weatherMiddleware = require("./libs/middleware/weather");
 
-const flashMiddleware = require('./libs/middleware/flash');
+const flashMiddleware = require("./libs/middleware/flash");
 
 const handlers = require("./libs/handlers");
 
-const { credentials } = require('./config');
+const { credentials } = require("./config");
+
 
 const app = express();
 
 app.use(express.json());
 
-app.use(expressSession({
-  resave: false,
-  saveUninitialized: false,
-  secret: credentials.cookieSecret,
-}));
+app.use(
+  expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: credentials.cookieSecret,
+  })
+);
 
 app.use(cookieParser(credentials.cookieSecret));
 
@@ -122,8 +128,25 @@ app.use(handlers.notFound);
 
 app.use(handlers.serverError);
 
+switch (app.get("env")) {
+  case "development":
+    app.use(morgan("dev"));
+    break;
+  case "production":
+    const stream = fs.createWriteStream(__dirname + "/access.log", {
+      flags: "a",
+    });
+    app.use(morgan("combined", { stream }));
+    break;
+}
+
 if (require.main === module) {
-  app.listen(port, () => console.log("Running on port ", port));
+  app.listen(
+    port,
+    () => console.log("Running on port ", port),
+    // `${app.get("env")} mode at http://localhost:${port}`,
+    // `; press CTRL-C to terminate`
+  );
 } else {
   module.exports = app;
 }
