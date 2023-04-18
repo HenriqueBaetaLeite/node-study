@@ -1,5 +1,7 @@
 const cluster = require('cluster');
 
+require('dotenv').config()
+
 function startWorker() {
   const worker = cluster.fork();
   console.log('Cluster started: ', worker.id);

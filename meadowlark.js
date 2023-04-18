@@ -1,6 +1,8 @@
 const express = require("express");
 const { engine, create } = require("express-handlebars");
 
+require('dotenv').config();
+
 const cluster = require('cluster');
 
 const multiparty = require("multiparty");
@@ -19,7 +21,6 @@ const flashMiddleware = require("./libs/middleware/flash");
 const handlers = require("./libs/handlers");
 
 const { credentials } = require("./config");
-
 
 const app = express();
 
