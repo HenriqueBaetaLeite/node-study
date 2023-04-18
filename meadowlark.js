@@ -1,6 +1,8 @@
 const express = require("express");
 const { engine, create } = require("express-handlebars");
 
+const cluster = require('cluster');
+
 const multiparty = require("multiparty");
 
 const cookieParser = require("cookie-parser");
@@ -33,9 +35,16 @@ app.use(
 
 app.use(cookieParser(credentials.cookieSecret));
 
+app.use((req, res, next) => {
+  if (cluster.isWorker) {
+    console.log(`Worker ${cluster.worker.id} received request`);
+  }
+  next();
+});
+
 app.use(flashMiddleware);
 
-const port = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 
 // Aqui podemos utilizar diversos tipos de "configurações", observar documentação oficial
 // const hbs = create();
@@ -128,25 +137,33 @@ app.use(handlers.notFound);
 
 app.use(handlers.serverError);
 
-switch (app.get("env")) {
-  case "development":
-    app.use(morgan("dev"));
-    break;
-  case "production":
-    const stream = fs.createWriteStream(__dirname + "/access.log", {
-      flags: "a",
-    });
-    app.use(morgan("combined", { stream }));
-    break;
-}
+// switch (app.get("env")) {
+//   case "development":
+//     app.use(morgan("dev"));
+//     break;
+//   case "production":
+//     const stream = fs.createWriteStream(__dirname + "/access.log", {
+//       flags: "a",
+//     });
+//     app.use(morgan("combined", { stream }));
+//     break;
+// }
+
+const startServer = (port) => {
+  app.listen(port, function() {
+    console.log(`Express started in ${app.get('env')}` +
+    ` mode on http://localhost:${port}`);
+  });
+};
 
 if (require.main === module) {
-  app.listen(
-    port,
-    () => console.log("Running on port ", port),
-    // `${app.get("env")} mode at http://localhost:${port}`,
-    // `; press CTRL-C to terminate`
-  );
+  startServer(PORT);
+  // app.listen(
+  //   PORT,
+  //   () => console.log("Running on port ", PORT),
+  //   // `${app.get("env")} mode at http://localhost:${port}`,
+  //   // `; press CTRL-C to terminate`
+  // );
 } else {
-  module.exports = app;
+  module.exports = startServer;
 }
